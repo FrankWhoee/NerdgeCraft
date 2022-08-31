@@ -33,7 +33,12 @@ local function download(url):
     end 
 
 urls = {
-
+    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/mining/mine",
+    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/down",
+    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/forward",
+    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/left",
+    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/right",
+    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/up",
 }
 
 for url in urls do
