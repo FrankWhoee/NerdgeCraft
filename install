@@ -42,7 +42,7 @@ urls = {
     "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/up",
 }
 
-for url in urls do
+for i,url in ipairs(urls) do
     download(url)
 end
 
