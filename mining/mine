@@ -1,0 +1,7 @@
+if table.getn(arg) == 1 then
+    print("Usage: mine <currentZ> <length>")
+    return
+end
+if table.getn(arg) == 3 then
+    length = tonumber(arg[2])
+y = tonumber(arg[1])

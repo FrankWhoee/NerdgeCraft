@@ -1,0 +1,42 @@
+local function get(url)
+    print("GET from "..textutils.urlEncode(url))
+    local response = http.get(
+       textutils.urlEncode(url)
+    )
+        
+    if response then
+        print( "GET success." )
+        
+        local sResponse = response.readAll()
+        response.close()
+        return sResponse
+    else
+        printError( "GET Failed." )
+    end
+end
+
+function basename(str)
+	local name = string.gsub(str, "(.*/)(.*)", "%2")
+	return name
+end
+
+local function download(url):
+    local sFile = basename(url
+    local sPath = shell.resolve( sFile ))
+    local res = get(url)
+    if res then        
+        local file = fs.open( sPath, "w" )
+        file.write( res )
+        file.close()
+        
+        print( "Downloaded as "..sFile )
+    end 
+
+urls = {
+
+}
+
+for url in urls do
+    download(url)
+end
+
