@@ -1,7 +1,7 @@
 local function get(url)
-    print("GET from "..textutils.urlEncode(url))
+    print("GET from "..url)
     local response = http.get(
-       textutils.urlEncode(url)
+       url
     )
         
     if response then
