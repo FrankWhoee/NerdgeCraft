@@ -21,8 +21,8 @@ function basename(str)
 end
 
 local function download(url)
-    local sFile = basename(url
-    local sPath = shell.resolve( sFile ))
+    local sFile = basename(url)
+    local sPath = shell.resolve( sFile )
     local res = get(url)
     if res then        
         local file = fs.open( sPath, "w" )
