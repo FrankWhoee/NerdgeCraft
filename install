@@ -20,7 +20,7 @@ function basename(str)
 	return name
 end
 
-local function download(url):
+local function download(url)
     local sFile = basename(url
     local sPath = shell.resolve( sFile ))
     local res = get(url)
