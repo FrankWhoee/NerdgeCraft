@@ -10,7 +10,7 @@ local function isInventoryFull()
     return occupied_slots == 16
 end
 
-if table.getn(arg) == 1 then
+if table.getn(arg) == 0 then
     print("Usage: mine <currentY> <length: OPTIONAL>")
     return
 end
