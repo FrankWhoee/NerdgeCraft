@@ -14,10 +14,16 @@ if table.getn(arg) == 0 then
     print("Usage: mine <currentY> <length: OPTIONAL>")
     return
 end
-if table.getn(arg) == 3 then
+if table.getn(arg) == 2 then
     length = tonumber(arg[2])
 else
     length = -1
+end
+
+if length == -1 then
+    print("[WARN] No length entered. Turtle will mine until it runs out of fuel or until its inventory is full.")
+else
+    print("[INFO] Turtle will mine "..length.." horizontally.")
 end
 
 -- valuables to look for to mine. Unsupported currently.
@@ -29,14 +35,23 @@ local targetY = 14
 
 local deltaY = y - targetY
 
+local requiredFuel = (deltaY + length) * 2 + 2
+
 if deltaY * 2 > turtle.getFuelLevel() then
-    print("Not enough fuel to begin.")
+    print("[CRIT] Not enough fuel to begin. You need at least "..(deltaY * 2 + 2).." fuel to begin.")
+    if length != -1:
+        print("[INFO] To complete the mining journey you requested, you need "..requiredFuel..".")
     return
+end
+
+if length != -1 and requiredFuel > turtle.getFuelLevel() then
+    print("[WARN] You do not have enough fuel to complete this mining journey. You need "..requiredFuel..". Turtle will go as far as it can.")
 end
 
 local distance = 0
 local horizontalDistance = 0
 
+print("[INFO] Vertical excavation begins.")
 for i=1,deltaY do
     distance = distance + 1
     turtle.digDown()
@@ -44,8 +59,8 @@ for i=1,deltaY do
 end
 
 
-
-while (distance * 2 < turtle.getFuelLevel() or isInventoryFull()) do
+print("[INFO] Vertical excavation ends. Mining begins.")
+while (distance * 2 < turtle.getFuelLevel() or isInventoryFull()) and (length != -1 or horizontalDistance < length) do
     while(not turtle.forward()) do 
         turtle.dig()
     end
@@ -82,8 +97,14 @@ while (distance * 2 < turtle.getFuelLevel() or isInventoryFull()) do
     turtle.turnLeft()
 
     -- End slice inspection
-end
 
+    -- Print progress
+    local progress = (horizontalDistance / length) * 100
+    if(math.fmod(math.floor(progress), 10) == 0) then
+        print("[INFO] "..progress.."% complete.")
+    end
+end
+print("[INFO] Mining journey complete. Returning home.")
 -- Turn around and return
 turtle.turnRight()
 turtle.turnRight()
@@ -94,7 +115,7 @@ while horizontalDistance > 0 do
     end
     horizontalDistance = horizontalDistance - 1
 end
-
+print("[INFO] Returned to original XZ coords, moving up.")
 while deltaY > 0 do
     while(not turtle.up()) do 
         turtle.digUp()
@@ -109,4 +130,4 @@ turtle.forward()
 turtle.forward()
 turtle.turnRight()
 turtle.turnRight()
-
+print("[INFO] Turtle is home.")
