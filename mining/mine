@@ -52,6 +52,7 @@ end
 
 local distance = 0
 local horizontalDistance = 0
+local mined = 0
 
 print("[INFO] Vertical excavation begins.")
 for i=1,deltaY do
@@ -65,6 +66,7 @@ print("[INFO] Vertical excavation ends. Mining begins.")
 while distance * 2 < turtle.getFuelLevel() and not isInventoryFull() and (length == -1 or horizontalDistance < length) do
     while(not turtle.forward()) do  
         turtle.dig()
+        mined = mined + 1
     end
     
     distance = distance + 1
@@ -75,17 +77,20 @@ while distance * 2 < turtle.getFuelLevel() and not isInventoryFull() and (length
     local success,data = turtle.inspectUp()
     if success and string.find(data.name,"ore") then
         turtle.digUp()
+        mined = mined + 1
     end
 
     success,data = turtle.inspectDown()
     if success and string.find(data.name,"ore") then
         turtle.digDown()
+        mined = mined + 1
     end
 
     turtle.turnLeft()
     success,data = turtle.inspect()
     if success and string.find(data.name,"ore") then
         turtle.dig()
+        mined = mined + 1
     end
 
     turtle.turnRight()
@@ -93,6 +98,7 @@ while distance * 2 < turtle.getFuelLevel() and not isInventoryFull() and (length
     success,data = turtle.inspect()
     if success and string.find(data.name,"ore") then
         turtle.dig()
+        mined = mined + 1
     end
 
     -- Restore orientation
@@ -121,6 +127,7 @@ turtle.turnRight()
 while horizontalDistance > 0 do
     while(not turtle.forward()) do 
         turtle.dig()
+        mined = mined + 1
     end
     horizontalDistance = horizontalDistance - 1
 end
@@ -128,10 +135,13 @@ print("[INFO] Returned to original XZ coords, moving up.")
 while deltaY > 0 do
     while(not turtle.up()) do 
         turtle.digUp()
+        mined = mined + 1
     end
     deltaY = deltaY - 1
 end
  
+print("[INFO] Mined "..mined.." blocks.")
+
 -- Back up onto solid ground for easy breakage (hopefully)
 turtle.turnRight()
 turtle.turnRight()
