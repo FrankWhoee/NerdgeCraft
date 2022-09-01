@@ -58,8 +58,10 @@ local mined = 0
 print("[INFO] Vertical excavation begins.")
 for i=1,deltaY do
     distance = distance + 1
-    turtle.digDown()
-    turtle.down()
+    while(not turtle.down()) do  
+        turtle.digDown()
+        mined = mined + 1
+    end
 end
 
 
