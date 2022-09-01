@@ -3,7 +3,7 @@ local function isInventoryFull()
     for i=1,16 do
         local count = turtle.getItemCount(i)
         local data = turtle.getItemDetail(i)
-        if (string.find(data.name,"ore") and count == 64) or count > 1 then
+        if count > 0 and ((string.find(data.name,"ore") and count == 64) or count > 1) then
             occupied_slots = occupied_slots + 1 
         end
     end
