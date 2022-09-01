@@ -61,7 +61,7 @@ end
 
 
 print("[INFO] Vertical excavation ends. Mining begins.")
-while distance * 2 < turtle.getFuelLevel() and not isInventoryFull() and (length ~= -1 or horizontalDistance < length) do
+while distance * 2 < turtle.getFuelLevel() and not isInventoryFull() and (length == -1 or horizontalDistance < length) do
     while(not turtle.forward()) do  
         turtle.dig()
     end
