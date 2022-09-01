@@ -1,7 +1,113 @@
+local function isInventoryFull() do
+    occupied_slots = 0
+    for i=1,16 do
+        local count = turtle.getItemCount(i)
+        local data = turtle.getItemDetail(i)
+        if (string.find(data,"ore") and count == 64) or count > 1 do 
+            occupied_slots = occupied_slots + 1 
+        end
+    end
+    return occupied_slots == 16
+
+end
+
 if table.getn(arg) == 1 then
-    print("Usage: mine <currentZ> <length>")
+    print("Usage: mine <currentY> <length: OPTIONAL>")
     return
 end
 if table.getn(arg) == 3 then
     length = tonumber(arg[2])
-y = tonumber(arg[1])
+else
+    length = -1
+end
+
+-- valuables to look for to mine. Unsupported currently.
+local valuables = {}
+
+local y = tonumber(arg[1])
+
+local targetY = 14
+
+local deltaY = y - targetY
+
+if deltaY * 2 > turtle.getFuelLevel() do
+    print("Not enough fuel to begin.")
+    return
+end
+
+local distance = 0
+local horizontalDistance = 0
+
+for i=1,deltaY do
+    distance = distance + 1
+    turtle.digDown()
+    turtle.down()
+end
+
+
+
+while (distance * 2 < turtle.getFuelLevel() or isInventoryFull()) do
+    while(not turtle.forward()) do 
+        turtle.dig()
+    end
+    
+    distance = distance + 1
+    horizontalDistance = horizontalDistance + 1
+
+    -- Start slice inspection
+    -- Check up, down, left and right for precious ores
+    local success,data = turtle.inspectUp()
+    if string.find(data,"ore") then
+        turtle.digUp()
+    end
+
+    success,data = turtle.inspectDown()
+    if string.find(data,"ore") then
+        turtle.digDown()
+    end
+
+    turtle.turnLeft()
+    success,data = turtle.inspect()
+    if string.find(data,"ore") then
+        turtle.dig()
+    end
+
+    turtle.turnRight()
+    turtle.turnRight()
+    success,data = turtle.inspect()
+    if string.find(data,"ore") then
+        turtle.dig()
+    end
+
+    -- Restore orientation
+    turtle.turnLeft()
+
+    -- End slice inspection
+end
+
+-- Turn around and return
+turtle.turnRight()
+turtle.turnRight()
+
+while horizontalDistance > 0 do
+    while(not turtle.forward()) do 
+        turtle.dig()
+    end
+    horizontalDistance = horizontalDistance - 1
+end
+
+while deltaY > 0 do
+    while(not turtle.up()) do 
+        turtle.digUp()
+    end
+    deltaY = deltaY - 1
+end
+ 
+-- Back up onto solid ground for easy breakage (hopefully)
+turtle.turnRight()
+turtle.turnRight()
+turtle.forward()
+turtle.forward()
+turtle.turnRight()
+turtle.turnRight()
+
