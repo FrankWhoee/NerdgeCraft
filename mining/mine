@@ -56,25 +56,25 @@ while (distance * 2 < turtle.getFuelLevel() or isInventoryFull()) do
     -- Start slice inspection
     -- Check up, down, left and right for precious ores
     local success,data = turtle.inspectUp()
-    if string.find(data.name,"ore") then
+    if success and string.find(data.name,"ore") then
         turtle.digUp()
     end
 
     success,data = turtle.inspectDown()
-    if string.find(data.name,"ore") then
+    if success and string.find(data.name,"ore") then
         turtle.digDown()
     end
 
     turtle.turnLeft()
     success,data = turtle.inspect()
-    if string.find(data.name,"ore") then
+    if success and string.find(data.name,"ore") then
         turtle.dig()
     end
 
     turtle.turnRight()
     turtle.turnRight()
     success,data = turtle.inspect()
-    if string.find(data.name,"ore") then
+    if success and string.find(data.name,"ore") then
         turtle.dig()
     end
 
