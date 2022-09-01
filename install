@@ -26,6 +26,7 @@ local function download(url)
     local res = get(url)
     if res then        
         local file = fs.open( sPath, "w" )
+        if file then fs.delete(sPath) end
         file.write( res )
         file.close()
         
