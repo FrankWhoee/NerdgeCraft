@@ -1,4 +1,4 @@
-print("mine version: 4")
+print("mine version: 5")
 local function isInventoryFull()
     occupied_slots = 0
     for i=1,16 do
@@ -76,7 +76,7 @@ local function turn(direction, orientation)
         delta = 2 - math.fmod(orientation, 4)
         finalorientation = 2
     elseif direction == "l" then
-        delta = 3 - math.fmod(orientation, 4)
+        delta = math.fmod(1 - orientation, 4) - 2
         finalorientation = 3
     end
     print("[INFO] delta: "..delta..", target: "..direction..", orientation: "..orientation)
