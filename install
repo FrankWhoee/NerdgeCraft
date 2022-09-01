@@ -35,7 +35,7 @@ end
 
 urls = {
     "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/install",
-    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/mining/mine",
+    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/resources/mine",
     "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/down",
     "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/forward",
     "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/left",
