@@ -1,4 +1,4 @@
-print("mine version: 3")
+print("mine version: 4")
 local function isInventoryFull()
     occupied_slots = 0
     for i=1,16 do
@@ -79,6 +79,7 @@ local function turn(direction, orientation)
         delta = 3 - math.fmod(orientation, 4)
         finalorientation = 3
     end
+    print("[INFO] delta: "..delta..", target: "..direction..", orientation: "..orientation)
     while delta ~= 0 do
         if delta < 0 then
             turtle.turnLeft()
