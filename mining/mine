@@ -100,9 +100,16 @@ while distance * 2 < turtle.getFuelLevel() and not isInventoryFull() and (length
     -- End slice inspection
 
     -- Print progress
-    local progress = (horizontalDistance / length) * 100
-    if(math.fmod(math.floor(progress), 10) == 0) then
-        print("[INFO] "..progress.."% complete.")
+    
+    if length ~= -1 then
+        local progress = (horizontalDistance / length) * 100
+        if(math.fmod(math.floor(progress), 10) == 0) then
+            print("[INFO] "..progress.."% complete.")
+        end
+    else
+        if math.fmod(horizontalDistance, 100) == 0 then
+            print("[INFO] Traveled ".. distance.." blocks.")
+        end
     end
 end
 print("[INFO] Mining journey complete. Returning home.")
