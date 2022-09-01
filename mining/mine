@@ -3,7 +3,7 @@ local function isInventoryFull()
     for i=1,16 do
         local count = turtle.getItemCount(i)
         local data = turtle.getItemDetail(i)
-        if (string.find(data,"ore") and count == 64) or count > 1 then
+        if (string.find(data.name,"ore") and count == 64) or count > 1 then
             occupied_slots = occupied_slots + 1 
         end
     end
@@ -56,25 +56,25 @@ while (distance * 2 < turtle.getFuelLevel() or isInventoryFull()) do
     -- Start slice inspection
     -- Check up, down, left and right for precious ores
     local success,data = turtle.inspectUp()
-    if string.find(data,"ore") then
+    if string.find(data.name,"ore") then
         turtle.digUp()
     end
 
     success,data = turtle.inspectDown()
-    if string.find(data,"ore") then
+    if string.find(data.name,"ore") then
         turtle.digDown()
     end
 
     turtle.turnLeft()
     success,data = turtle.inspect()
-    if string.find(data,"ore") then
+    if string.find(data.name,"ore") then
         turtle.dig()
     end
 
     turtle.turnRight()
     turtle.turnRight()
     success,data = turtle.inspect()
-    if string.find(data,"ore") then
+    if string.find(data.name,"ore") then
         turtle.dig()
     end
 
