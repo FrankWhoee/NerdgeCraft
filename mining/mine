@@ -1,4 +1,4 @@
-local function isInventoryFull() do
+local function isInventoryFull()
     occupied_slots = 0
     for i=1,16 do
         local count = turtle.getItemCount(i)
@@ -8,7 +8,6 @@ local function isInventoryFull() do
         end
     end
     return occupied_slots == 16
-
 end
 
 if table.getn(arg) == 1 then
