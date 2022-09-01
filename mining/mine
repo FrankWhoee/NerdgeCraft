@@ -39,9 +39,10 @@ local requiredFuel = (deltaY + length) * 2 + 2
 
 if deltaY * 2 > turtle.getFuelLevel() then
     print("[CRIT] Not enough fuel to begin. You need at least "..(deltaY * 2 + 2).." fuel to begin.")
-    if length != -1:
+    if length != -1 then
         print("[INFO] To complete the mining journey you requested, you need "..requiredFuel..".")
-    return
+        return
+    end
 end
 
 if length != -1 and requiredFuel > turtle.getFuelLevel() then
