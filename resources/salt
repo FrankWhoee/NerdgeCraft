@@ -1,4 +1,4 @@
-print("salt version: 1")
+print("salt version: 2")
 if table.getn(arg) == 0 then
     print("Usage: salt <amount>")
     return
@@ -48,7 +48,7 @@ if not selectChest() then
     return
 end
 local success,data = turtle.inspect()
-if success and data.name ~= "minecraft:chest" then
+if not success or data.name ~= "minecraft:chest" then
     turtle.dig()
     turtle.place()
 end
