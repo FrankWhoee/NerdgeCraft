@@ -1,11 +1,11 @@
-print("salt version: 2")
+print("salt version: 4")
 if table.getn(arg) == 0 then
     print("Usage: salt <amount>")
     return
 end
 
 local amount = tonumber(arg[1])
-
+print("[INFO] Harvesting "..amount.." salt and then stopping")
 local function selectFirstItem(name)
     for i=1,16 do
         local data = turtle.getItemDetail(i)
@@ -73,5 +73,6 @@ while amount > 0 do
     turtle.select(3)
     turtle.drop()
     amount = amount - 1
+    turtle.select(1)
 end
 
