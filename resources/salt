@@ -1,6 +1,6 @@
-print("salt version: 4")
+print("salt version: 5")
 if table.getn(arg) == 0 then
-    print("Usage: salt <amount>")
+    print("Usage: salt <amount>. Place a bucket, pot, and chest in the inventory, and put the turtle above a water source that replenishes automatically.")
     return
 end
 
