@@ -1,4 +1,4 @@
-print("salt version: 6")
+print("salt version: 7")
 if table.getn(arg) == 0 then
     print("Usage: salt <amount>. Place a bucket, pot, and chest in the inventory, and put the turtle above a water source that replenishes automatically.")
     return
@@ -70,7 +70,7 @@ turtle.select(1)
 turtle.placeDown()
 
 while amount > 0 do
-    turtle.craft()
+    while not turtle.craft() do end
     turtle.select(3)
     turtle.drop()
     amount = amount - 1
