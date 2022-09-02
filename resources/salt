@@ -1,0 +1,77 @@
+print("salt version: 1")
+if table.getn(arg) == 0 then
+    print("Usage: salt <amount>")
+    return
+end
+
+local amount = tonumber(arg[1])
+
+local function selectFirstItem(name)
+    for i=1,16 do
+        local data = turtle.getItemDetail(i)
+        if data then
+            if data.name == name then 
+                turtle.select(i) 
+                return true
+            end
+        end
+    end
+    return false
+end
+
+local function selectBucket()
+    return selectFirstItem("minecraft:bucket")
+end
+
+local function selectPot()
+    return selectFirstItem("harvestcraft:potitem")
+end
+
+local function selectChest()
+    if not selectFirstItem("minecraft:chest") then
+        -- Scan for chests adjacent to turtle
+        for i=1,4 do
+            local success,data = turtle.inspect()
+            if success and data.name == "minecraft:chest" then
+                return true
+            end
+            turtle.turnRight()
+        end
+    else
+        return true
+    end
+    return false
+end
+
+if not selectChest() then
+    print("[CRIT] You need to place a bucket, pot, and chest in the turtle's inventory to begin. You are missing a chest.")
+    return
+end
+local success,data = turtle.inspect()
+if success and data.name ~= "minecraft:chest" then
+    turtle.dig()
+    turtle.place()
+end
+
+if not selectBucket() then
+    print("[CRIT] You need to place a bucket, pot, and chest in the turtle's inventory to begin. You are missing bucket.")
+    return
+end
+turtle.transferTo(1)
+
+if not selectPot() then
+    print("[CRIT] You need to place a bucket, pot, and chest in the turtle's inventory to begin. You are missing a pot.")
+    return
+end
+turtle.transferTo(2)
+
+turtle.select(1)
+turtle.placeDown()
+
+while amount > 0 do
+    turtle.craft()
+    turtle.select(3)
+    turtle.drop()
+    amount = amount - 1
+end
+

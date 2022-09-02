@@ -43,6 +43,7 @@ urls = {
     "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/left",
     "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/right",
     "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/up",
+    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/salt",
 }
 
 for i,url in ipairs(urls) do
