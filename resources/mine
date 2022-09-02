@@ -1,4 +1,4 @@
-print("mine version: 5")
+print("mine version: 6")
 local function isInventoryFull()
     occupied_slots = 0
     for i=1,16 do
