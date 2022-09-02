@@ -74,5 +74,6 @@ while amount > 0 do
     turtle.drop()
     amount = amount - 1
     turtle.select(1)
+    turtle.placeDown()
 end
 
