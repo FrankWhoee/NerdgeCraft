@@ -64,7 +64,7 @@ width = tonumber(arg[2])
 height = tonumber(arg[3])
 
 -- (TODO) Make sure this calculation is correct lol
-requiredFuel = (deph + 1) * width * height
+requiredFuel = (depth + 1) * width * height
 
 
 if requiredFuel > turtle.getFuelLevel() then
