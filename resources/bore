@@ -74,7 +74,7 @@ end
 
 local orientation = 0
 
-local odd = math.fmod(width,2)
+local odd = (math.fmod(width,2) == 1)
 print(math.fmod(width,2))
 if odd then print("Width is odd") end
 for y=1,height do
