@@ -44,6 +44,7 @@ urls = {
     "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/right",
     "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/up",
     "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/resources/salt",
+    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/resources/bore",
 }
 
 for i,url in ipairs(urls) do
