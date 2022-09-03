@@ -12,7 +12,7 @@ local function log(level, msg)
     term.setTextColor(colors.white)
 end
 
-log(2,"bore version: 1")
+log(2,"bore version: 2")
 if table.getn(arg) == 0 then
     log(2,"Usage: bore <depth> <width> <height>. Place turtle at bottom left of the tunnel, facing the direction you want to bore.")
     return
@@ -63,6 +63,15 @@ depth = tonumber(arg[1])
 width = tonumber(arg[2])
 height = tonumber(arg[3])
 
+-- (TODO) Make sure this calculation is correct lol
+requiredFuel = (deph + 1) * width * height
+
+
+if requiredFuel > turtle.getFuelLevel() then
+    log(0, "Not enough fuel. You need at least "..requiredFuel)
+    return
+end
+
 local orientation = 0
 
 local odd = math.fmod(width,2)
@@ -72,27 +81,33 @@ for y=1,height do
         for z=1,depth-1 do
             forceForward()
         end
-            forceForward()
-            if math.fmod(y,2) == 1 then
-                orientation = turn("r", orientation)
+        
+        forceForward()
+        if math.fmod(y,2) == 1 then
+            orientation = turn("r", orientation)
+        else
+            orientation = turn("l", orientation)
+        end
+        forceForward()
+        if math.fmod(x,2) == 1 then
+            if odd and math.fmod(y,2) == 0 then
+                orientation = turn("f", orientation)
             else
-                orientation = turn("l", orientation)
+                orientation = turn("b", orientation)
             end
-            forceForward()
-            if math.fmod(x,2) == 1 then
-                if odd and math.fmod(y,2) == 0 then
-                    orientation = turn("f", orientation)
-                else
-                    orientation = turn("b", orientation)
-                end
+        else
+            if odd and math.fmod(y,2) == 0 then
+                orientation = turn("b", orientation)
             else
-                if odd and math.fmod(y,2) == 0 then
-                    orientation = turn("b", orientation)
-                else
-                    orientation = turn("f", orientation)
-                end
+                orientation = turn("f", orientation)
             end
+        end
     
     end 
     forceUp()
+    if odd and math.fmod(y,2) == 0 then
+        orientation = turn("f", orientation)
+    else
+        orientation = turn("b", orientation)
+    end
 end
