@@ -75,7 +75,7 @@ end
 local orientation = 0
 
 local odd = math.fmod(width,2)
-
+if odd then print("Width is odd") end
 for y=1,height do
     for x=1,width do
         for z=1,depth-1 do
@@ -83,29 +83,31 @@ for y=1,height do
         end
         log(2, "Finished mining one line.")
         forceForward()
-        if math.fmod(y,2) == 1 then
-            orientation = turn("r", orientation)
-            log(2, "Mining on an odd level ("..y.."), so we will turn right.")
-        else
-            orientation = turn("l", orientation)
-            log(2, "Mining on an even level ("..y.."), so we will turn left.")
-        end
-        forceForward()
-        if math.fmod(x,2) == 1 then
-            if odd and math.fmod(y,2) == 0 then
-                orientation = turn("f", orientation)
-                log(2, "Mining on an even level ("..y.."), with odd width, so we will turn forward.")
+        if x ~= width then
+            if math.fmod(y,2) == 1 then
+                orientation = turn("r", orientation)
+                log(2, "Mining on an odd level ("..y.."), so we will turn right.")
             else
-                orientation = turn("b", orientation)
-                log(2, "Mining on an odd level ("..y.."), so we will turn backward.")
+                orientation = turn("l", orientation)
+                log(2, "Mining on an even level ("..y.."), so we will turn left.")
             end
-        else
-            if odd and math.fmod(y,2) == 0 then
-                orientation = turn("b", orientation)
-                log(2, "Mining on an even level ("..y.."), so we will turn backward.")
+            forceForward()
+            if math.fmod(x,2) == 1 then
+                if odd and math.fmod(y,2) == 0 then
+                    orientation = turn("f", orientation)
+                    log(2, "Mining on an even level ("..y.."), with odd width, so we will turn forward.")
+                else
+                    orientation = turn("b", orientation)
+                    log(2, "Mining on an odd level ("..y.."), so we will turn backward.")
+                end
             else
-                orientation = turn("f", orientation)
-                log(2, "Mining on an odd level ("..y.."), so we will turn backward.")
+                if odd and math.fmod(y,2) == 0 then
+                    orientation = turn("b", orientation)
+                    log(2, "Mining on an even level ("..y.."), so we will turn backward.")
+                else
+                    orientation = turn("f", orientation)
+                    log(2, "Mining on an odd level ("..y.."), so we will turn backward.")
+                end
             end
         end
     
