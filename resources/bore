@@ -62,7 +62,7 @@ end
 depth = tonumber(arg[1])
 width = tonumber(arg[2])
 height = tonumber(arg[3])
-
+log(2, "Mining a volume of depth: "..depth..", width: "..width..", height: "..height)
 -- (TODO) Make sure this calculation is correct lol
 requiredFuel = (depth + 1) * width * height
 
@@ -75,6 +75,7 @@ end
 local orientation = 0
 
 local odd = math.fmod(width,2)
+print(math.fmod(width,2))
 if odd then print("Width is odd") end
 for y=1,height do
     for x=1,width do
