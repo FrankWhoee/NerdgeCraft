@@ -12,7 +12,7 @@ local function log(level, msg)
     term.setTextColor(colors.white)
 end
 
-log(2,"bore version: 3")
+log(2,"bore version: 4")
 if table.getn(arg) == 0 then
     log(2,"Usage: bore <depth> <width> <height>. Place turtle at bottom left of the tunnel, facing the direction you want to bore.")
     return
