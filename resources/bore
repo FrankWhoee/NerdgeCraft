@@ -12,7 +12,7 @@ local function log(level, msg)
     term.setTextColor(colors.white)
 end
 
-log(2,"bore version: 2")
+log(2,"bore version: 3")
 if table.getn(arg) == 0 then
     log(2,"Usage: bore <depth> <width> <height>. Place turtle at bottom left of the tunnel, facing the direction you want to bore.")
     return
@@ -81,25 +81,31 @@ for y=1,height do
         for z=1,depth-1 do
             forceForward()
         end
-        
+        log(2, "Finished mining one line.")
         forceForward()
         if math.fmod(y,2) == 1 then
             orientation = turn("r", orientation)
+            log(2, "Mining on an odd level ("..y.."), so we will turn right.")
         else
             orientation = turn("l", orientation)
+            log(2, "Mining on an even level ("..y.."), so we will turn left.")
         end
         forceForward()
         if math.fmod(x,2) == 1 then
             if odd and math.fmod(y,2) == 0 then
                 orientation = turn("f", orientation)
+                log(2, "Mining on an even level ("..y.."), with odd width, so we will turn forward.")
             else
                 orientation = turn("b", orientation)
+                log(2, "Mining on an odd level ("..y.."), so we will turn backward.")
             end
         else
             if odd and math.fmod(y,2) == 0 then
                 orientation = turn("b", orientation)
+                log(2, "Mining on an even level ("..y.."), so we will turn backward.")
             else
                 orientation = turn("f", orientation)
+                log(2, "Mining on an odd level ("..y.."), so we will turn backward.")
             end
         end
     
@@ -107,7 +113,9 @@ for y=1,height do
     forceUp()
     if odd and math.fmod(y,2) == 0 then
         orientation = turn("f", orientation)
+        log(2, "Mining on an even level ("..y.."), with odd width, so we will turn forward.")
     else
         orientation = turn("b", orientation)
+        log(2, "Mining on an odd level ("..y.."), so we will turn backward.")
     end
 end
