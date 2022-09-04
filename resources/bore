@@ -34,6 +34,7 @@ local function turn(direction, orientation)
         delta = math.fmod(1 - orientation, 4) - 2
         finalorientation = 3
     end
+    print("Turning "..direction.." from "..orientation..", delta: "..delta)
     while delta ~= 0 do
         if delta < 0 then
             turtle.turnLeft()
@@ -58,13 +59,19 @@ local function forceUp()
     end
 end
 
+local function forceDown()
+    while(not turtle.down()) do  
+        turtle.digDown()
+    end
+end
+
 
 depth = tonumber(arg[1])
 width = tonumber(arg[2])
 height = tonumber(arg[3])
 log(2, "Mining a volume of depth: "..depth..", width: "..width..", height: "..height)
 -- (TODO) Make sure this calculation is correct lol
-requiredFuel = (depth + 1) * width * height
+requiredFuel = (depth + 1) * width * height + height
 
 
 if requiredFuel > turtle.getFuelLevel() then
@@ -112,4 +119,8 @@ for y=1,height do
             orientation = turn("b", orientation)
         end
     end
+end
+
+for i=1,height do
+    forceDown()
 end
