@@ -115,7 +115,7 @@ local function recursiveMine(orientation)
         mined = mined + 1
         turtle.up()
         distance = distance + 1
-        recursiveMine()
+        recursiveMine(orientation)
         turtle.down()
         distance = distance + 1
     end
@@ -127,7 +127,7 @@ local function recursiveMine(orientation)
         mined = mined + 1
         turtle.down()
         distance = distance + 1
-        recursiveMine()
+        recursiveMine(orientation)
         turtle.up()
         distance = distance + 1
     end
@@ -139,7 +139,7 @@ local function recursiveMine(orientation)
         mined = mined + 1
         turtle.forward()
         distance = distance + 1
-        recursiveMine()
+        recursiveMine(orientation)
         orientation = turn("b",orientation)
         turtle.forward()
         distance = distance + 1
@@ -153,7 +153,7 @@ local function recursiveMine(orientation)
         mined = mined + 1
         turtle.forward()
         distance = distance + 1
-        recursiveMine()
+        recursiveMine(orientation)
         orientation = turn("r",orientation)
         turtle.forward()
         distance = distance + 1
@@ -167,7 +167,7 @@ local function recursiveMine(orientation)
         mined = mined + 1
         turtle.forward()
         distance = distance + 1
-        recursiveMine()
+        recursiveMine(orientation)
         orientation = turn("f",orientation)
         turtle.forward()
         distance = distance + 1
@@ -181,7 +181,7 @@ local function recursiveMine(orientation)
         mined = mined + 1
         turtle.forward()
         distance = distance + 1
-        recursiveMine()
+        recursiveMine(orientation)
         orientation = turn("l",orientation)
         turtle.forward()
         distance = distance + 1
@@ -211,7 +211,7 @@ while distance * 2 < turtle.getFuelLevel() and not isInventoryFull() and (length
     horizontalDistance = horizontalDistance + 1
 
     -- Will inspect slice and mine recursively.
-    orientation = recursiveMine()
+    orientation = recursiveMine(orientation)
     -- Restore orientation
     orientation = turn("f",orientation)
     -- Print progress
