@@ -12,7 +12,7 @@ local function log(level, msg)
     term.setTextColor(colors.white)
 end
 
-log(2, "mine version: 11")
+log(2, "mine version: 7")
 local function isInventoryFull()
     occupied_slots = 0
     for i=1,16 do
@@ -82,7 +82,7 @@ local function turn(direction, orientation)
     local finalorientation = 0
     local delta = 0
     if direction == "f" then
-        delta = math.fmod(5 - orientation, 4) - 1
+        delta = math.fmod(1 - orientation, 4) - 1
         finalorientation = 0
     elseif direction == "r" then
         delta = 1 - math.fmod(orientation, 4)
@@ -91,7 +91,7 @@ local function turn(direction, orientation)
         delta = 2 - math.fmod(orientation, 4)
         finalorientation = 2
     elseif direction == "l" then
-        delta = math.fmod(5 - orientation, 4) - 2
+        delta = math.fmod(1 - orientation, 4) - 2
         finalorientation = 3
     end
     while delta ~= 0 do
