@@ -94,7 +94,6 @@ local function turn(direction, orientation)
         delta = math.fmod(5 - orientation, 4) - 2
         finalorientation = 3
     end
-    print("Turning "..direction.." from "..orientation..", delta: "..delta)
     while delta ~= 0 do
         if delta < 0 then
             turtle.turnLeft()
@@ -189,8 +188,6 @@ local function recursiveMine()
         turtle.forward()
         distance = distance + 1
     end
-    -- Restore orientation
-    orientation = turn("f",orientation)
     -- End slice inspection
 end
 
@@ -216,7 +213,8 @@ while distance * 2 < turtle.getFuelLevel() and not isInventoryFull() and (length
 
     -- Will inspect slice and mine recursively.
     recursiveMine()
-
+    -- Restore orientation
+    orientation = turn("f",orientation)
     -- Print progress
     
     if length ~= -1 then
