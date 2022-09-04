@@ -34,6 +34,7 @@ local function turn(direction, orientation)
         delta = math.fmod(5 - orientation, 4) - 2
         finalorientation = 3
     end
+    print("Turning "..direction.." from "..orientation..", delta: "..delta)
     while delta ~= 0 do
         if delta < 0 then
             turtle.turnLeft()
