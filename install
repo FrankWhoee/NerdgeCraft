@@ -52,7 +52,7 @@ end
 
 urls = {}
 
-if get("localhost:5000/install") ~= nil then
+if get("http://localhost:5000/install") ~= nil then
     log(2,"Using local server for download.")
     urls = {
         "http://localhost:5000/install",
