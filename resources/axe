@@ -1,0 +1,121 @@
+local function log(level, msg)
+    if level == 0 then
+        term.setTextColor(colors.red)
+        print("[CRIT] "..msg)
+    elseif level == 1 then
+        term.setTextColor(colors.yellow)
+        print("[WARN] "..msg)
+    elseif level == 2 then
+        term.setTextColor(colors.white)
+        print("[INFO] "..msg)
+    end
+    term.setTextColor(colors.white)
+end
+
+local function isPrecious(name)
+    return string.find(data.name,"log") or string.find(data.name,"leaves") or string.find(data.name, "sapling")
+
+local function recursiveMine()
+    -- Start slice inspection. Assumes we are facing forward.
+    local orientation = 0
+    
+    -- Check forward
+    success,data = turtle.inspect()
+    if success and (isPrecious(data.name)) then
+        turtle.dig()
+        mined = mined + 1
+        turtle.forward()
+        distance = distance + 1
+        recursiveMine()
+        orientation = turn("b",orientation)
+        turtle.forward()
+        distance = distance + 1
+    end
+
+    -- Check up
+    local success,data = turtle.inspectUp()
+    if success and (isPrecious(data.name)) then
+        turtle.digUp()
+        mined = mined + 1
+        turtle.up()
+        distance = distance + 1
+        recursiveMine()
+        turtle.down()
+        distance = distance + 1
+    end
+
+    -- Check down
+    success,data = turtle.inspectDown()
+    if success and (isPrecious(data.name)) then
+        turtle.digDown()
+        mined = mined + 1
+        turtle.down()
+        distance = distance + 1
+        recursiveMine()
+        turtle.up()
+        distance = distance + 1
+    end
+
+    -- Check left
+    orientation = turn("l",orientation)
+    success,data = turtle.inspect()
+    if success and (isPrecious(data.name)) then
+        turtle.dig()
+        mined = mined + 1
+        turtle.forward()
+        distance = distance + 1
+        recursiveMine()
+        orientation = turn("r",orientation)
+        turtle.forward()
+        distance = distance + 1
+    end
+
+    -- Check backwards
+    orientation = turn("b",orientation)
+    success,data = turtle.inspect()
+    if success and (isPrecious(data.name)) then
+        turtle.dig()
+        mined = mined + 1
+        turtle.forward()
+        distance = distance + 1
+        recursiveMine()
+        orientation = turn("f",orientation)
+        turtle.forward()
+        distance = distance + 1
+    end
+
+    -- Check right
+    orientation = turn("r",orientation)
+    success,data = turtle.inspect()
+    if success and (isPrecious(data.name)) then
+        turtle.dig()
+        mined = mined + 1
+        turtle.forward()
+        distance = distance + 1
+        recursiveMine()
+        orientation = turn("l",orientation)
+        turtle.forward()
+        distance = distance + 1
+    end
+    -- Restore orientation
+    orientation = turn("f",orientation)
+    -- End slice inspection
+end
+
+log(2, "axe version: 1")
+
+local data, success = turtle.inspect()
+
+if not string.find(data.name, "sapling") and not string.find(data.name, "log") then
+    log(0, "No sapling found in front. This is not a valid farm.")
+    return
+end
+
+-- Wait for sapling in front to grow up.
+
+while not string.find(data.name, "log") then
+    os.sleep(1)
+end
+
+recursiveMine()
+
