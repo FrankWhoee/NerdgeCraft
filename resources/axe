@@ -26,11 +26,11 @@ local function recursiveMine()
         turtle.dig()
         
         turtle.forward()
-        distance = distance + 1
+        
         recursiveMine()
         orientation = turn("b",orientation)
         turtle.forward()
-        distance = distance + 1
+        
     end
 
     -- Check up
@@ -39,10 +39,10 @@ local function recursiveMine()
         turtle.digUp()
         
         turtle.up()
-        distance = distance + 1
+        
         recursiveMine()
         turtle.down()
-        distance = distance + 1
+        
     end
 
     -- Check down
@@ -51,10 +51,10 @@ local function recursiveMine()
         turtle.digDown()
         
         turtle.down()
-        distance = distance + 1
+        
         recursiveMine()
         turtle.up()
-        distance = distance + 1
+        
     end
 
     -- Check left
@@ -64,11 +64,11 @@ local function recursiveMine()
         turtle.dig()
         
         turtle.forward()
-        distance = distance + 1
+        
         recursiveMine()
         orientation = turn("r",orientation)
         turtle.forward()
-        distance = distance + 1
+        
     end
 
     -- Check backwards
@@ -78,11 +78,11 @@ local function recursiveMine()
         turtle.dig()
         
         turtle.forward()
-        distance = distance + 1
+        
         recursiveMine()
         orientation = turn("f",orientation)
         turtle.forward()
-        distance = distance + 1
+        
     end
 
     -- Check right
@@ -92,11 +92,11 @@ local function recursiveMine()
         turtle.dig()
         
         turtle.forward()
-        distance = distance + 1
+        
         recursiveMine()
         orientation = turn("l",orientation)
         turtle.forward()
-        distance = distance + 1
+        
     end
     -- Restore orientation
     orientation = turn("f",orientation)
