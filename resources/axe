@@ -103,7 +103,7 @@ local function recursiveMine()
     -- End slice inspection
 end
 
-log(2, "axe version: 1")
+log(2, "axe version: 2")
 
 local success,data = turtle.inspect()
 
