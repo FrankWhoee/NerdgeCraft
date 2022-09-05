@@ -107,7 +107,7 @@ log(2, "axe version: 2")
 
 local success,data = turtle.inspect()
 
-if not string.find(data.name, "sapling") and not string.find(data.name, "log") then
+if not success or (not string.find(data.name, "sapling") and not string.find(data.name, "log")) then
     log(0, "No sapling found in front. This is not a valid farm.")
     return
 end
