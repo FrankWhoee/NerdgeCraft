@@ -1,17 +1,32 @@
+local function log(level, msg)
+    if level == 0 then
+        term.setTextColor(colors.red)
+        print("[CRIT] "..msg)
+    elseif level == 1 then
+        term.setTextColor(colors.yellow)
+        print("[WARN] "..msg)
+    elseif level == 2 then
+        term.setTextColor(colors.white)
+        print("[INFO] "..msg)
+    end
+    term.setTextColor(colors.white)
+end
+
 local function get(url)
-    print("GET from "..url)
+    log(2,"GET from "..url)
     local response = http.get(
        url
     )
         
     if response then
-        print( "GET success." )
+        log(2, "GET success." )
         
         local sResponse = response.readAll()
         response.close()
         return sResponse
     else
-        printError( "GET Failed." )
+        log(1,"GET Failed." )
+        return
     end
 end
 
@@ -31,24 +46,42 @@ local function download(url)
         file.write( res )
         file.close()
         
-        print( "Downloaded as "..sFile )
+        log(2, "Downloaded as "..sFile )
     end 
 end
 
+urls = {}
 
-
-urls = {
-    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/install",
-    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/resources/mine",
-    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/down",
-    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/forward",
-    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/left",
-    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/right",
-    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/up",
-    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/resources/salt",
-    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/resources/bore",
-    "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/resources/axe",
-}
+if get("localhost:5000/install") ~= nil then
+    log(2,"Using local server for download.")
+    urls = {
+        "localhost:5000/install",
+        "localhost:5000/resources/mine",
+        "localhost:5000/movement/down",
+        "localhost:5000/movement/forward",
+        "localhost:5000/movement/left",
+        "localhost:5000/movement/right",
+        "localhost:5000/movement/up",
+        "localhost:5000/resources/salt",
+        "localhost:5000/resources/bore",
+        "localhost:5000/resources/axe",
+    }
+else
+    log(2,"Using github as file server for download.")
+    log(1,"GitHub has a 5min cache time, so files won't update for 5min. Consider using app.py to host your own file server.")
+    urls = {
+        "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/install",
+        "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/resources/mine",
+        "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/down",
+        "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/forward",
+        "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/left",
+        "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/right",
+        "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/movement/up",
+        "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/resources/salt",
+        "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/resources/bore",
+        "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/resources/axe",
+    }
+end
 
 for i,url in ipairs(urls) do
     download(url)
