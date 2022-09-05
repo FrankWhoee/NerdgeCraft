@@ -62,6 +62,34 @@ local function recursiveMine()
         
     end
 
+     -- Check left
+     orientation = turn("l",orientation)
+     success,data = turtle.inspect()
+     if success and (isPrecious(data.name)) then
+         turtle.dig()
+         
+         turtle.forward()
+         
+         recursiveMine()
+         orientation = turn("r",orientation)
+         turtle.forward()
+         
+     end
+
+     -- Check right
+    orientation = turn("r",orientation)
+    success,data = turtle.inspect()
+    if success and (isPrecious(data.name)) then
+        turtle.dig()
+        
+        turtle.forward()
+        
+        recursiveMine()
+        orientation = turn("l",orientation)
+        turtle.forward()
+        
+    end
+
     -- Check up
     local success,data = turtle.inspectUp()
     if success and (isPrecious(data.name)) then
@@ -71,32 +99,6 @@ local function recursiveMine()
         
         recursiveMine()
         turtle.down()
-        
-    end
-
-    -- Check down
-    success,data = turtle.inspectDown()
-    if success and (isPrecious(data.name)) then
-        turtle.digDown()
-        
-        turtle.down()
-        
-        recursiveMine()
-        turtle.up()
-        
-    end
-
-    -- Check left
-    orientation = turn("l",orientation)
-    success,data = turtle.inspect()
-    if success and (isPrecious(data.name)) then
-        turtle.dig()
-        
-        turtle.forward()
-        
-        recursiveMine()
-        orientation = turn("r",orientation)
-        turtle.forward()
         
     end
 
@@ -114,19 +116,18 @@ local function recursiveMine()
         
     end
 
-    -- Check right
-    orientation = turn("r",orientation)
-    success,data = turtle.inspect()
+    -- Check down
+    success,data = turtle.inspectDown()
     if success and (isPrecious(data.name)) then
-        turtle.dig()
+        turtle.digDown()
         
-        turtle.forward()
+        turtle.down()
         
         recursiveMine()
-        orientation = turn("l",orientation)
-        turtle.forward()
+        turtle.up()
         
     end
+
     -- Restore orientation
     orientation = turn("f",orientation)
     -- End slice inspection
