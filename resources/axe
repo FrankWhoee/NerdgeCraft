@@ -12,6 +12,35 @@ local function log(level, msg)
     term.setTextColor(colors.white)
 end
 
+local function turn(direction, orientation)
+    local finalorientation = 0
+    local delta = 0
+    if direction == "f" then
+        delta = math.fmod(5 - orientation, 4) - 1
+        finalorientation = 0
+    elseif direction == "r" then
+        delta = 1 - math.fmod(orientation, 4)
+        finalorientation = 1
+    elseif direction == "b" then
+        delta = 2 - math.fmod(orientation, 4)
+        finalorientation = 2
+    elseif direction == "l" then
+        delta = math.fmod(5 - orientation, 4) - 2
+        finalorientation = 3
+    end
+    print("Turning "..direction.." from "..orientation..", delta: "..delta)
+    while delta ~= 0 do
+        if delta < 0 then
+            turtle.turnLeft()
+            delta = delta + 1
+        else
+            turtle.turnRight()
+            delta = delta - 1
+        end
+    end
+    return finalorientation
+end
+
 local function isPrecious(name)
     return string.find(name,"log") or string.find(name,"leaves") or string.find(name, "sapling")
 end
