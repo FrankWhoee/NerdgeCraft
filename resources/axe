@@ -24,7 +24,7 @@ local function recursiveMine()
     success,data = turtle.inspect()
     if success and (isPrecious(data.name)) then
         turtle.dig()
-        mined = mined + 1
+        
         turtle.forward()
         distance = distance + 1
         recursiveMine()
@@ -37,7 +37,7 @@ local function recursiveMine()
     local success,data = turtle.inspectUp()
     if success and (isPrecious(data.name)) then
         turtle.digUp()
-        mined = mined + 1
+        
         turtle.up()
         distance = distance + 1
         recursiveMine()
@@ -49,7 +49,7 @@ local function recursiveMine()
     success,data = turtle.inspectDown()
     if success and (isPrecious(data.name)) then
         turtle.digDown()
-        mined = mined + 1
+        
         turtle.down()
         distance = distance + 1
         recursiveMine()
@@ -62,7 +62,7 @@ local function recursiveMine()
     success,data = turtle.inspect()
     if success and (isPrecious(data.name)) then
         turtle.dig()
-        mined = mined + 1
+        
         turtle.forward()
         distance = distance + 1
         recursiveMine()
@@ -76,7 +76,7 @@ local function recursiveMine()
     success,data = turtle.inspect()
     if success and (isPrecious(data.name)) then
         turtle.dig()
-        mined = mined + 1
+        
         turtle.forward()
         distance = distance + 1
         recursiveMine()
@@ -90,7 +90,7 @@ local function recursiveMine()
     success,data = turtle.inspect()
     if success and (isPrecious(data.name)) then
         turtle.dig()
-        mined = mined + 1
+        
         turtle.forward()
         distance = distance + 1
         recursiveMine()
