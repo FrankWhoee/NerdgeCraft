@@ -55,16 +55,16 @@ urls = {}
 if get("localhost:5000/install") ~= nil then
     log(2,"Using local server for download.")
     urls = {
-        "localhost:5000/install",
-        "localhost:5000/resources/mine",
-        "localhost:5000/movement/down",
-        "localhost:5000/movement/forward",
-        "localhost:5000/movement/left",
-        "localhost:5000/movement/right",
-        "localhost:5000/movement/up",
-        "localhost:5000/resources/salt",
-        "localhost:5000/resources/bore",
-        "localhost:5000/resources/axe",
+        "http://localhost:5000/install",
+        "http://localhost:5000/resources/mine",
+        "http://localhost:5000/movement/down",
+        "http://localhost:5000/movement/forward",
+        "http://localhost:5000/movement/left",
+        "http://localhost:5000/movement/right",
+        "http://localhost:5000/movement/up",
+        "http://localhost:5000/resources/salt",
+        "http://localhost:5000/resources/bore",
+        "http://localhost:5000/resources/axe",
     }
 else
     log(2,"Using github as file server for download.")
