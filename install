@@ -13,20 +13,20 @@ local function log(level, msg)
 end
 
 local function get(url)
-    log(2,"GET from "..url)
+    -- log(2,"GET from "..url)
     local response = http.get(
        url
     )
         
     if response then
-        log(2, "GET success." )
+        -- log(2, "GET success." )
         
         local sResponse = response.readAll()
         response.close()
         return sResponse
     else
         log(1,"GET Failed." )
-        return
+        return nil
     end
 end
 
@@ -46,7 +46,7 @@ local function download(url)
         file.write( res )
         file.close()
         
-        log(2, "Downloaded as "..sFile )
+        -- log(2, "Downloaded as "..sFile )
     end 
 end
 
@@ -83,7 +83,9 @@ else
     }
 end
 
+log(2, "Downloading files...")
 for i,url in ipairs(urls) do
     download(url)
 end
+log(2, "Download complete.")
 

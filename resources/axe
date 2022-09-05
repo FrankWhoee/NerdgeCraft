@@ -50,7 +50,7 @@ local function countAll(name)
         turtle.select(i)
         data = turtle.getItemDetail()
         if data ~= nil and string.find(data.name, name) then
-            sum += turtle.getItemCount()
+            sum = sum + turtle.getItemCount()
         end
     end
 end
@@ -163,7 +163,7 @@ local function forceDown()
     end
 end
 
-log(2, "axe version: 4")
+log(2, "axe version: 5")
 if table.getn(arg) == 0 then
     log(2, "Usage: axe <length>, length specifies how long the line of trees is.")
     return
