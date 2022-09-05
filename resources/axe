@@ -13,7 +13,7 @@ local function log(level, msg)
 end
 
 local function isPrecious(name)
-    return string.find(data.name,"log") or string.find(data.name,"leaves") or string.find(data.name, "sapling")
+    return string.find(name,"log") or string.find(name,"leaves") or string.find(name, "sapling")
 end
 
 local function recursiveMine()
