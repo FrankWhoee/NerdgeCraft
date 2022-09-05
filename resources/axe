@@ -14,6 +14,7 @@ end
 
 local function isPrecious(name)
     return string.find(data.name,"log") or string.find(data.name,"leaves") or string.find(data.name, "sapling")
+end
 
 local function recursiveMine()
     -- Start slice inspection. Assumes we are facing forward.
