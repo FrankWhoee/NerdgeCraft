@@ -44,6 +44,17 @@ local function isPrecious(name)
     return string.find(name,"log") or string.find(name,"leaves") or string.find(name, "sapling")
 end
 
+local function countAll(name)
+    sum = 0
+    for i=1,16 do
+        turtle.select(i)
+        data = turtle.getItemDetail()
+        if data ~= nil and string.find(data.name, name) then
+            sum += turtle.getItemCount()
+        end
+    end
+end
+
 mined = 0
 
 local function recursiveMine()
@@ -162,17 +173,12 @@ length = tonumber(arg[1])
 
 local success,data = turtle.inspect()
 
-if not success or (not string.find(data.name, "sapling") and not string.find(data.name, "log")) then
-    log(0, "No sapling found in front. This is not a valid farm.")
-    return
-end
-
 local orientation = 0
 
 while true do
     log(2, "Waiting for trees to grow up.")
-    while not string.find(data.name, "log") do
-        local success,data = turtle.inspect()
+    while not success or not string.find(data.name, "log") do
+        success,data = turtle.inspect()
         os.sleep(5)
     end
     fuel = turtle.getFuelLevel()
@@ -201,15 +207,29 @@ while true do
         end
     end
     -- (TODO) Count up all saplings to support lengths > 64
-    
-    log(2, "Depositing excess saplings.")
+    totalSaplings = countAll("sapling")
+    if totalSaplings < length then
+        log(2, "Getting saplings from surplus chest.")
+        orientation = turn("l", orientation)
+        turtle.forward()
+        while(countAll("sapling") < length) do end
+        orientation = turn("r", orientation)
+        turtle.forward()
+    end
+
+    if totalSaplings > length then
+        log(2, "Depositing excess saplings.")
+        turtle.up()
+        turtle.up()
+        orientation = turn("l",orientation)
+        turtle.select(1)
+        amount = turtle.getItemCount()
+        turtle.drop(amount - length)
+        turtle.down()
+        turtle.down()
+    end
+
     turtle.up()
-    turtle.up()
-    orientation = turn("l",orientation)
-    turtle.select(1)
-    amount = turtle.getItemCount()
-    turtle.drop(amount - length)
-    turtle.down()
     for i=1,length do
         forceForward()
     end
