@@ -114,7 +114,7 @@ end
 
 -- Wait for sapling in front to grow up.
 
-while not string.find(data.name, "log") then
+while not string.find(data.name, "log") do
     os.sleep(1)
 end
 
