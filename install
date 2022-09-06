@@ -52,6 +52,8 @@ end
 
 urls = {}
 
+usingGithub = false
+
 if get("http://localhost:5000/install") ~= nil then
     log(2,"Using local server for download.")
     urls = {
@@ -67,8 +69,10 @@ if get("http://localhost:5000/install") ~= nil then
         "http://localhost:5000/resources/axe",
     }
 else
+    usingGithub = true
     log(2,"Using github as file server for download.")
     log(1,"GitHub has a 5min cache time, so files won't update for 5min. Consider using app.py to host your own file server.")
+    log(1,"If it's not working, try: https://github.com/cc-tweaked/CC-Tweaked/discussions/626")
     urls = {
         "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/install",
         "https://raw.githubusercontent.com/FrankWhoee/NerdgeCraft/master/resources/mine",
@@ -83,7 +87,7 @@ else
     }
 end
 
-log(2, "Downloading files...")
+if not usingGithub then log(2, "Downloading files...") end
 for i,url in ipairs(urls) do
     download(url)
 end

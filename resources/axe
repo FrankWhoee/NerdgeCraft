@@ -40,6 +40,23 @@ local function turn(direction, orientation)
     return finalorientation
 end
 
+local function selectFirstItem(name)
+    for i=1,16 do
+        local data = turtle.getItemDetail(i)
+        if data then
+            if data.name == name then 
+                turtle.select(i) 
+                return true
+            end
+        end
+    end
+    return false
+end
+
+local function selectSapling()
+    return selectFirstItem("minecraft:sapling")
+end
+
 local function isPrecious(name)
     return string.find(name,"log") or string.find(name,"leaves") or string.find(name, "sapling")
 end
@@ -53,36 +70,46 @@ local function countAll(name)
             sum = sum + turtle.getItemCount()
         end
     end
+    return sum
 end
 
 mined = 0
 
-local function recursiveMine()
+local function recursiveMine(from)
     -- Start slice inspection. Assumes we are facing forward.
     local orientation = 0
     
+
+    filledBlocks = {}
+    filledBlocks["f"] = false
+    filledBlocks["r"] = false
+    filledBlocks["b"] = false
+    filledBlocks["l"] = false
+    filledBlocks["u"] = false
+    filledBlocks["d"] = false
+
     -- Check forward
     success,data = turtle.inspect()
     if success and (isPrecious(data.name)) then
+        filledBlocks["f"] = true
         turtle.dig()
         mined = mined + 1
         turtle.forward()
-        
-        recursiveMine()
+        recursiveMine("f")
         orientation = turn("b",orientation)
         turtle.forward()
-        
     end
 
      -- Check left
      orientation = turn("l",orientation)
      success,data = turtle.inspect()
      if success and (isPrecious(data.name)) then
+        filledBlocks["l"] = true
          turtle.dig()
          mined = mined + 1
          turtle.forward()
          
-         recursiveMine()
+         recursiveMine("l")
          orientation = turn("r",orientation)
          turtle.forward()
          
@@ -92,11 +119,12 @@ local function recursiveMine()
     orientation = turn("r",orientation)
     success,data = turtle.inspect()
     if success and (isPrecious(data.name)) then
+        filledBlocks["r"] = true
         turtle.dig()
         mined = mined + 1
         turtle.forward()
         
-        recursiveMine()
+        recursiveMine("r")
         orientation = turn("l",orientation)
         turtle.forward()
         
@@ -105,37 +133,42 @@ local function recursiveMine()
     -- Check up
     local success,data = turtle.inspectUp()
     if success and (isPrecious(data.name)) then
+        filledBlocks["u"] = true
         turtle.digUp()
         mined = mined + 1
         turtle.up()
         
-        recursiveMine()
+        recursiveMine("u")
         turtle.down()
         
     end
 
     -- Check backwards
-    orientation = turn("b",orientation)
-    success,data = turtle.inspect()
-    if success and (isPrecious(data.name)) then
-        turtle.dig()
-        mined = mined + 1
-        turtle.forward()
-        
-        recursiveMine()
-        orientation = turn("f",orientation)
-        turtle.forward()
-        
+    if from == "u" or from == "d" then
+        orientation = turn("b",orientation)
+        success,data = turtle.inspect()
+        if success and (isPrecious(data.name)) then
+            filledBlocks["f"] = true
+            turtle.dig()
+            mined = mined + 1
+            turtle.forward()
+            
+            recursiveMine("b")
+            orientation = turn("f",orientation)
+            turtle.forward()
+            
+        end
     end
 
     -- Check down
     success,data = turtle.inspectDown()
     if success and (isPrecious(data.name)) then
+        filledBlocks["d"] = true
         turtle.digDown()
         mined = mined + 1
         turtle.down()
         
-        recursiveMine()
+        recursiveMine("d")
         turtle.up()
         
     end
@@ -176,19 +209,58 @@ local success,data = turtle.inspect()
 local orientation = 0
 
 while true do
+    totalSaplings = countAll("sapling")
+    if totalSaplings < length then
+        log(2, "Getting saplings from surplus chest.")
+        orientation = turn("l", orientation)
+        turtle.forward()
+        while(countAll("sapling") < length) do end
+        orientation = turn("r", orientation)
+        turtle.forward()
+    end
+    totalSaplings = countAll("sapling")
+    if totalSaplings > length then
+        log(2, "Depositing excess saplings.")
+        turtle.up()
+        turtle.up()
+        orientation = turn("l",orientation)
+        turtle.select(1)
+        amount = turtle.getItemCount()
+        turtle.drop(amount - length)
+        turtle.down()
+        turtle.down()
+    end
+    orientation = turn("f",orientation)
+    turtle.up()
+    for i=1,length do
+        forceForward()
+    end
+    orientation = turn("b",orientation)
+    for i=1,length do
+        selectSapling()
+        turtle.digDown()
+        turtle.placeDown()
+        forceForward()
+    end
+    turtle.down()
+    orientation = turn("f",orientation)
+
     log(2, "Waiting for trees to grow up.")
+    fuel = turtle.getFuelLevel()
+    success,data = turtle.inspect()
     while not success or not string.find(data.name, "log") do
         success,data = turtle.inspect()
         os.sleep(5)
     end
-    fuel = turtle.getFuelLevel()
+    log(2, "Starting mining...")
     recursiveMine()
     log(2, "Mined "..mined.." blocks and consumed "..(fuel - turtle.getFuelLevel()).." fuel.")
     log(2, "Depositing items...")
     -- Drop everything but saplings
     for i=1,16 do
+        turtle.select(i)
         item = turtle.getItemDetail()
-        if not string.find(item.name, "sapling") then
+        if item ~= nil and not string.find(item.name, "sapling") then
             turtle.select(i)
             turtle.dropDown()
         else
@@ -206,38 +278,4 @@ while true do
             
         end
     end
-    -- (TODO) Count up all saplings to support lengths > 64
-    totalSaplings = countAll("sapling")
-    if totalSaplings < length then
-        log(2, "Getting saplings from surplus chest.")
-        orientation = turn("l", orientation)
-        turtle.forward()
-        while(countAll("sapling") < length) do end
-        orientation = turn("r", orientation)
-        turtle.forward()
-    end
-
-    if totalSaplings > length then
-        log(2, "Depositing excess saplings.")
-        turtle.up()
-        turtle.up()
-        orientation = turn("l",orientation)
-        turtle.select(1)
-        amount = turtle.getItemCount()
-        turtle.drop(amount - length)
-        turtle.down()
-        turtle.down()
-    end
-
-    turtle.up()
-    for i=1,length do
-        forceForward()
-    end
-    orientation = turn("b",orientation)
-    for i=1,length do
-        turtle.placeDown()
-        forceForward()
-    end
-    turtle.down()
-    orientation = turn("f",orientation)
 end
